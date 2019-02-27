@@ -1,0 +1,81 @@
+// COLOR VARIABLES
+$color-primary: #c69963;
+$color-primary-dark: #B28451;
+
+$color-secondary: #101d2c;
+
+$color-grey-light-1: #f9f7f6;
+$color-grey-light-2: #aaa;
+
+$color-grey-dark-1: #54483A;
+$color-grey-dark-2: #6D5D4B;
+
+// FONT VARIABLES
+$font-primary: 'Nunito', sans-serif;
+$font-display: 'Josefin Sans', sans-serif;
+
+//RESPONSIVE BREAKPOINTS
+
+$bp-largest:75em;//1200 /16
+$bp-large:62.5em;//1000 /16
+$bp-medium: 50em;// 800 /16
+$bp-small: 37.5em;//600 /16
+
+*,
+*::before,
+*::after{
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+html{
+    box-sizing: border-box;
+    font-size: 62.5%;
+
+    @media only screen and (max-width: $bp-largest) {
+        font-size: 50%;
+    }
+}
+
+body{
+    font-family: $font-primary;
+    color: $color-grey-dark-2;
+    font-weight: 300;
+    line-height: 1.6;
+}
+
+
+//Grid => Think responsive from the start of the project / columns are always more important than rows => can leave it at content height most of the time
+.container{
+    
+    display: grid;                                              
+    grid-template-rows: 80vh min-content 40vw repeat(3,min-content); // 6 rows 1-80% viewport height 2-fit to content 3-40% viewport width 4/6- fit to content
+    grid-template-columns: 
+    [sidebar-start] 8rem [sidebar-end full-start] minmax(6rem, 1fr) [center-start] 
+    repeat(8, [col-start] minmax(min-content, 14rem) [col-end]) [center-end] //140px from 1140px common screen size => 1140 / 8 = 142 => 14rem
+    minmax(6rem, 1fr) [full-end];
+    //80px for our side bar and 8 fixed width columns in the middle, that never grow larger than 140px and smaller than the min content 
+    // and then 2 columns either side of our 8 fixed that occupy the remain of the space/they will be the first to shrink but will not shrink smaller than 6opx
+    
+    @media only screen and (max-width: $bp-large) {//Remove first column and insert a new row at the top 
+    grid-template-rows: 6rem 80vh min-content 40vw repeat(3,min-content); 
+    grid-template-columns: 
+    [full-start] minmax(6rem, 1fr) [center-start] 
+    repeat(8, [col-start] minmax(min-content, 14rem) [col-end]) [center-end] 
+    minmax(6rem, 1fr) [full-end];
+    }
+   
+    @media only screen and (max-width: $bp-medium) {
+    grid-template-rows: 6rem calc(100vh - 6rem);
+    // Only have to style the first two rows as the implicit rows added are the same as => repeat(6,min-content); 
+    // Lh heading column take Rh heading columns space and increasing the view height = 80vh => 100vh 
+    // Use calc function to take the 6rem nav bar off and make it actually 100vh
+    // and insert a new row under the heading at a value of min-content
+    }
+
+//  & > *{//testing
+//      padding: 4rem;
+//      font-size: 3rem;
+//  }
+}
